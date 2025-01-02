@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fitness Tracker</title>
+    <link rel="shortcut icon" href="assest/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="track.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html">Program</a></li>
+        <li><a href="index.html">Choose Us</a></li>
+        <li><a href="tracker.html" class="active">Tracker</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+      </ul>
+    </nav>
+
+    <header class="hero">
+      <h1>TRACK YOUR <span>GOAL DAILY</span></h1>
+      <p>
+        In here you can track your body daily and get recommendations based on
+        your body type!
+      </p>
+      <button id="tryNow" class="btn-primary">TRY NOW →</button>
+    </header>
+
+    <main id="trackerSection" style="display: none">
+      <section class="form-section">
+        <h2>Log Your Workout</h2>
+        <form id="workoutForm">
+          <label for="exercise">Exercise</label>
+          <input type="text" id="exercise" required />
+
+          <label for="sets">Sets</label>
+          <input type="number" id="sets" required />
+
+          <label for="reps">Reps</label>
+          <input type="number" id="reps" required />
+
+          <label for="weight">Weight (kg)</label>
+          <input type="number" id="weight" required />
+
+          <label for="goal">Your Goal</label>
+          <select id="goal" required>
+            <option value="muscle">Build Muscle</option>
+            <option value="fatloss">Fat Loss</option>
+          </select>
+
+          <button type="submit" class="btn-primary">log your workout</button>
+          <div id="popupMessage" class="popup hidden">
+            <div class="popup-content">
+              <h2>Success!</h2>
+              <p>
+                Your workout data is added successfully. You can see your
+                progress.
+              </p>
+              <button id="closePopup">OK</button>
+            </div>
+          </div>
+        </form>
+      </section>
+      <section class="stats-section">
+        <h2>Your Progress</h2>
+        <canvas id="progressChart" width="400" height="200"></canvas>
+      </section>
+      <section class="recommendations">
+        <h2>Recommendations</h2>
+        <ul id="workoutRecommendations"></ul>
+      </section>
+    </main>
+
+    <script src="tracker.js"></script>
+  </body>
+</html>

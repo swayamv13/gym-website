@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="assest/favicon.png" type="image/x-icon" />
+    <title>Workout Tracker</title>
+    <link rel="stylesheet" href="track.css" />
+  </head>
+ 
+    <main class="tracker-container">
+      <h1>Workout Tracker</h1>
+
+      <!-- Log Workout Form -->
+      <div class="log-form">
+        <h2>Log Your Workout</h2>
+        <form id="workoutForm">
+          <label for="exercise">Exercise:</label>
+          <input type="text" id="exercise" name="exercise" required />
+
+          <label for="sets">Sets:</label>
+          <input type="number" id="sets" name="sets" required />
+
+          <label for="reps">Reps per Set:</label>
+          <input type="number" id="reps" name="reps" required />
+
+          <label for="weight">Weight (kg):</label>
+          <input type="number" id="weight" name="weight" required />
+
+          <label for="goal">Goal:</label>
+          <select id="goal" name="goal" required>
+            <option value="muscle">Muscle Building</option>
+            <option value="fatloss">Fat Loss</option>
+          </select>
+
+          <button type="submit">Log Workout</button>
+        </form>
+      </div>
+
+      <!-- Weekly Progress and Recommendations -->
+      <div class="progress-recommendations">
+        <h2>Your Weekly Progress</h2>
+        <canvas id="progressChart"></canvas>
+        <div id="recommendations">
+          <h3>Recommendations</h3>
+          <ul id="workoutRecommendations"></ul>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="tracker.js"></script>
+  </body>
+</html>
+
+
+:root {
+    /* Colors */
+    --first-color: hsl(79, 72%, 55%); /* Primary green color */
+    --first-color-light: hsl(79, 97%, 77%); /* Light green */
+    --first-color-alt: hsl(79, 67%, 52%); /* Darker green */
+    --first-color-dark: hsl(79, 63%, 50%); /* Even darker green */
+    --first-color-gray: hsl(79, 6%, 64%); /* Grayish green */
+    --title-color: hsl(180, 4%, 98%); /* Light title color */
+    --title-color-black: hsl(180, 4%, 12%); /* Dark title color */
+    --text-color: hsl(180, 4%, 72%); /* Lighter text */
+    --text-color-light: hsl(180, 4%, 65%); /* Lighter text for subtexts */
+    --body-color: hsl(121, 43%, 21%); /* Dark body color */
+  
+    /* Font and typography */
+    --body-font: 'Red Hat Display', sans-serif; /* Main font */
+    --second-font: 'Kaushan Script', cursive; /* Decorative font */
+    --biggest-font-size: 6rem; /* Font size for large headings */
+    --bigger-font-size: 3.5rem; /* Font size for sub-headings */
+    --big-font-size: 2.75rem; /* Font size for major text */
+    --h1-font-size: 2.25rem; /* Font size for h1 tags */
+    --h2-font-size: 1.5rem; /* Font size for h2 tags */
+    --h3-font-size: 1.25rem; /* Font size for h3 tags */
+    --normal-font-size: 1rem; /* Regular text size */
+    --small-font-size: .875rem; /* Small text size */
+    --smaller-font-size: .813rem; /* Smaller text size */
+  
+    /* Font weight */
+    --font-bold: 700;
+    --font-black: 900;
+  
+    /* z-index for layering */
+    --z-tooltip: 10;
+    --z-fixed: 100;
+  }
+  
+  /* Reset default margin and padding */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--body-font), sans-serif;
+    background:  hsl(180, 12%, 8%);
+    color: var(--text-color);
+  }
+  
+  
+  
+  /* Main Tracker Section */
+  .tracker-container {
+    background-color: 132.37deg 52.33% 10.54%;/* Light green background */
+    padding: 30px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+  }
+  
+  .tracker-container h2 {
+    font-size: var(--bigger-font-size);
+    font-weight: var(--font-bold);
+    color: var(--first-color-dark); /* Dark green */
+  }
+  
+  .tracker-container .log-form {
+    margin-top: 20px;
+  }
+  
+  .tracker-container .log-form input {
+    width: 98%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid var(--first-color-light);
+    font-size: var(--normal-font-size);
+  }
+  
+  .tracker-container .log-form button {
+    background-color: var(--first-color);
+    color: var(--title-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: var(--normal-font-size);
+    transition: background-color 0.3s;
+  }
+  
+  .tracker-container .log-form button:hover {
+    background-color: var(--first-color-alt); /* Darker green on hover */
+  }
+  
+  /* Progress Section */
+  .progress-recommendations {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: var(--first-color-light);
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .progress-recommendations h3 {
+    font-size: var(--h2-font-size);
+    font-weight: var(--font-bold);
+    color: var(--first-color-dark); /* Dark green */
+  }
+  
+  canvas {
+    max-width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* Recommendations Section */
+  #recommendations {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--first-color-alt); /* Slightly darker green */
+    border-radius: 5px;
+    color: var(--title-color);
+  }
+  
+  #recommendations h3 {
+    font-size: var(--h3-font-size);
+    font-weight: var(--font-bold);
+    color: #0e3e0e;
+  }
+  
+  #recommendations ul {
+    list-style: none;
+    padding: 0;
+    font-size: var(--normal-font-size);
+    color: rgb(67, 137, 26);
+  }
+  
+  #recommendations li {
+    margin: 10px 0;
+  }
+  
+  /* Buttons and Links */
+  .button {
+    display: inline-block;
+    background-color: var(--first-color);
+    padding: 16px 30px;
+    border: 2px solid var(--first-color-light);
+    color: var(--title-color);
+    font-weight: var(--font-bold);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+  }
+  
+  .button:hover {
+    background-color: var(--first-color-alt);
+  }
+  
+  /* Footer */
+  footer {
+    background-color: var(--first-color-alt);
+    color: var(--title-color);
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
